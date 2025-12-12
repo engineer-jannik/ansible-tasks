@@ -1,0 +1,18 @@
+- name: Check internet connection
+  hosts: all
+  become: yes
+
+  vars:
+    ansible_command_timeout: 120
+
+  tasks:
+    - name: Ansible Command -> ping google.com
+      ansible.builtin.command: ping google.com
+      changed_when: false
+
+    - name: End message
+      ansible.builtin.debug:
+        msg: "Internetcheck auf allen Maschinen ausgeführt."
+      run_once: true
+      delegate_to: localhost
+      changed_when: false
