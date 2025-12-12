@@ -7,7 +7,7 @@
 
   tasks:
     - name: Ansible Command -> ping google.com
-      ansible.builtin.command: ping google.com
+      ansible.builtin.command: ping google.com -t 3
       changed_when: false
 
     - name: End message
