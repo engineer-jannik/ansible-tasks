@@ -3,6 +3,9 @@
   hosts: all
   become: yes
 
+  vars:
+    ansible_command_timeout: 120
+
   tasks:
 
     - name: Update package cache
@@ -18,7 +21,7 @@
       ansible.builtin.set_fact:
         upgrade_count: "{{ upgrade_check.stdout | regex_findall('Inst ') | length }}"
 
-    - name: Debug – show number of upgradeable packages
+    - name: Anzahl upgradebarer Pakete anzeigen
       ansible.builtin.debug:
         msg: "Es sind {{ upgrade_count }} Pakete upgradebar."
 
@@ -26,3 +29,10 @@
       ansible.builtin.apt:
         upgrade: yes
       when: upgrade_count | int > 0
+
+    - name: Abschlussmeldung
+      ansible.builtin.debug:
+        msg: "APT-Upgrade-Check abgeschlossen: Alle Hosts sind aktuell oder wurden aktualisiert."
+      run_once: true
+      delegate_to: localhost
+      changed_when: false
