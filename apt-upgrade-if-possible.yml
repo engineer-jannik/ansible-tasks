@@ -26,9 +26,9 @@
         msg: "Es sind {{ upgrade_count }} Pakete upgradebar."
 
     - name: Upgrade durchführen, wenn Pakete vorhanden sind
-      ansible.builtin.apt:
-        upgrade: yes
+      ansible.builtin.command: apt-get upgrade
       when: upgrade_count | int > 0
+      msg: "DEBUG: is executing"
 
     - name: Abschlussmeldung
       ansible.builtin.debug:
